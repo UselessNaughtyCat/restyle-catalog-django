@@ -1,0 +1,7 @@
+.vscode/
+media/images/site_logos/
+media/images/style_logos/
+static/css/bootstrap/
+static/js/bootstrap/
+static/js/jquery-3.3.1.min.js
+.env

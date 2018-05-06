@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} | Restyle Catalog</title>
+    <link type="text/css" rel="stylesheet" href="{% static "css/bootstrap/bootstrap.min.css" %}">
+    <link type="text/css" rel="stylesheet" href="{% static "css/main.css" %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3 text-center">
+        <div class="container">
+            <a class="navbar-brand" href="#">Re:</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% block navmain %}{% endblock %}" href="{% url 'main' %}">Домашняя страница</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block navstyles %}{% endblock %}" href="{% url 'styles' %}">Каталог стилей</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block navsites %}{% endblock %}" href="{% url 'sites' %}">Список сайтов</a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    {% if user.is_authenticated %}
+                    <!-- {{user.id}} -->
+                    <a class="btn btn-sm btn-outline-light" href="{% url 'profile' user.id %}">Моя страница</a>
+                    <a class="btn btn-sm btn-outline-light" href="{% url 'logout' %}">Выйти</a>
+                    {% else %}
+                    <a class="btn btn-sm btn-outline-light" href="#">Зарегистрироваться</a>
+                    <a class="btn btn-sm btn-outline-light" href="{% url 'login' %}">Войти</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block main %}{% endblock %}
+    </div>
+    
+    <footer class="footer font-small bg-dark text-white">
+        <div class="container">
+            <h5 class="text-uppercase text-center pt-4">Links</h5>
+            <div class="row">
+                <div class="col-6 col-sm text-center">
+                    <ul class="list-unstyled">
+                        <li><a href="#!">Link 1</a></li>
+                        <li><a href="#!">Link 2</a></li>
+                        <li><a href="#!">Link 3</a></li>
+                        <li><a href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-sm text-center">
+                    <ul class="list-unstyled">
+                        <li><a href="#!">Link 1</a></li>
+                        <li><a href="#!">Link 2</a></li>
+                        <li><a href="#!">Link 3</a></li>
+                        <li><a href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-copyright py-3 text-center">
+                 © 2018 GameBars. Все пра́вы защщены законом.
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap/bootstrap.min.js" %}"></script>
+</body>
+</html>

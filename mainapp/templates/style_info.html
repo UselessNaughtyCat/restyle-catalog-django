@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}
+{{ style.name }}
+{% endblock %}
+{% block main %}
+<div class="row">
+    <div class="col-8 col-lg-8">
+        <h1 class="font-weight-bold">{{ style.name }}</h1>
+        <h5 class="text-muted">Автор: <a href="#">{{ style.creator }}</a></h5>
+    </div>
+    <div class="col-4 col-lg-4 text-right">
+        {% if user.is_authenticated %}
+            <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
+        {% else %}
+            <div type="button" class="btn btn-outline-secondary btn-lg disabled">Войдите для подписки</div>
+        {% endif %}
+    </div>
+</div>
+<img src="{{ style.image.url }}" class="img-fluid" alt="Responsive image">
+<table class="table table-borderless text-center">
+    <tr>
+        <td><div>
+            <h6 class="text-muted">Подписок</h6>
+            <h3>{{ style.subscribed }}</h3>
+        </div></td>
+        <td><div>
+            <h6 class="text-muted">Рейтинг</h6>
+            <h3>{{ style.average_rating }}</h3>
+        </div></td>
+    </tr>
+</table>
+<hr class="my-4">
+<h6 class="font-weight-bold">Описание:</h6>
+<p class="text-small-padding">{{ style.description }}</p>
+<hr class="my-4">
+<h6 class="font-weight-bold">Подробнее:</h6>
+<div class="row">
+    <div class="col-12 col-lg-4">
+        <table class="table table-borderless">
+            <tr>
+                <th scope="row">Для сайта</th>
+                <td><a href="http://{{ style.site.url }}">{{ style.site }}</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Дата публикации</th>
+                <td>{{ style.upload_date }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Последнее обновление</th>
+                <td>{{ style.last_update }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<hr class="my-4">
+{% endblock %}
