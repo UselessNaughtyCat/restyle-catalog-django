@@ -4,11 +4,11 @@
 {% endblock %}
 {% block main %}
 <div class="row">
-    <div class="col-8 col-lg-8">
+    <div class="col-12 col-sm-8 col-lg-8">
         <h1 class="font-weight-bold">{{ style.name }}</h1>
-        <h5 class="text-muted">Автор: <a href="#">{{ style.creator }}</a></h5>
+        <h5 class="text-muted">Автор: <a href="{% url 'profile' style.creator.id %}">{{ style.creator }}</a></h5>
     </div>
-    <div class="col-4 col-lg-4 text-right">
+    <div class="col-2 col-sm-4 col-lg-4 text-right">
         {% if user.is_authenticated %}
             <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
         {% else %}
@@ -20,12 +20,12 @@
 <table class="table table-borderless text-center">
     <tr>
         <td><div>
-            <h6 class="text-muted">Подписок</h6>
-            <h3>{{ style.subscribed }}</h3>
+            <h5 class="text-muted">Подписок</h5>
+            <h2>{{ style.subscribed }}</h2>
         </div></td>
         <td><div>
-            <h6 class="text-muted">Рейтинг</h6>
-            <h3>{{ style.average_rating }}</h3>
+            <h5 class="text-muted">Рейтинг</h5>
+            <h2>{{ style.average_rating }}</h2>
         </div></td>
     </tr>
 </table>

@@ -17,20 +17,29 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link {% block navmain %}{% endblock %}" href="{% url 'main' %}">Домашняя страница</a>
+                        <a class="nav-link" href="{% url 'main' %}">Домашняя страница</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% block navstyles %}{% endblock %}" href="{% url 'styles' %}">Каталог стилей</a>
+                        <a class="nav-link" href="{% url 'styles' %}">Каталог стилей</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% block navsites %}{% endblock %}" href="{% url 'sites' %}">Список сайтов</a>
+                        <a class="nav-link" href="{% url 'sites' %}">Список сайтов</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
                     {% if user.is_authenticated %}
-                    <!-- {{user.id}} -->
-                    <a class="btn btn-sm btn-outline-light" href="{% url 'profile' user.id %}">Моя страница</a>
-                    <a class="btn btn-sm btn-outline-light" href="{% url 'logout' %}">Выйти</a>
+                    <div class="btn-group">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle font-weight-bold" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item text-dark" href="{% url 'profile' user.id %}">Мой профиль</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-dark" href="№">Создать стиль</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-dark" href="{% url 'logout' %}">Выйти</a>
+                        </div>
+                    </div>
                     {% else %}
                     <a class="btn btn-sm btn-outline-light" href="#">Зарегистрироваться</a>
                     <a class="btn btn-sm btn-outline-light" href="{% url 'login' %}">Войти</a>
@@ -48,7 +57,7 @@
         <div class="container">
             <h5 class="text-uppercase text-center pt-4">Links</h5>
             <div class="row">
-                <div class="col-6 col-sm text-center">
+                <div class="col-6 col-sm-6 text-center">
                     <ul class="list-unstyled">
                         <li><a href="#!">Link 1</a></li>
                         <li><a href="#!">Link 2</a></li>
@@ -56,7 +65,7 @@
                         <li><a href="#!">Link 4</a></li>
                     </ul>
                 </div>
-                <div class="col-6 col-sm text-center">
+                <div class="col-6 col-sm-6 text-center">
                     <ul class="list-unstyled">
                         <li><a href="#!">Link 1</a></li>
                         <li><a href="#!">Link 2</a></li>
@@ -65,9 +74,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="footer-copyright py-3 text-center">
-                 © 2018 GameBars. Все пра́вы защщены законом.
-            </div>
+            <div class="footer-copyright py-3 text-center">ReStyle Catalog</div>
         </div>
     </footer>
 

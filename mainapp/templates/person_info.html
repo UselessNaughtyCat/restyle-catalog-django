@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block title %}
-{{ user.username }}
+{{ curr_user.username }}
 {% endblock %}
 {% block main %}
 <div class="row">
-    <div class="col-12 col-lg-8">
-        <h1 class="font-weight-bold">{{ user.username }}{% if is_self_person %}<small class="text-muted"> (Это вы)</small>{% endif %}</h1>
+    <div class="col-12 col-sm-8 col-lg-8">
+        <h1 class="font-weight-bold">{{ curr_user.username }}{% if is_self_person %}<small class="text-muted"> (Это вы)</small>{% endif %}</h1>
     </div>
-    <div class="col-12 col-lg-4 text-right">
+    <div class="col-2 col-sm-4 col-lg-4 text-right">
         {% if user.is_authenticated %}
             {% if not is_self_person %}
             <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
@@ -19,11 +19,11 @@
 </div>
 <hr class="my-4">
 <h6 class="font-weight-bold">Описание:</h6>
-<p class="text-small-padding">{{ user.person.description }}</p>
+<p class="text-small-padding">{{ curr_user.person.description }}</p>
 <hr class="my-4">
 <h6 class="font-weight-bold">Созданные стили:</h6>
 <div class="row">
-    {% for style in user_styles %}
+    {% for style in curr_user_works %}
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
             <div class="card-header font-weight-bold">{{ style.name }}</div>
@@ -43,7 +43,7 @@
 <hr class="my-4">
 <h6 class="font-weight-bold">Подписки:</h6>
 <div class="row">
-    {% for style in sub_styles %}
+    {% for style in curr_user_subs %}
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
             <div class="card-header font-weight-bold">{{ style.name }}</div>
@@ -68,11 +68,11 @@
         <table class="table table-borderless">
             <tr>
                 <th scope="row">Настоящее имя</th>
-                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>{{ curr_user.first_name }} {{ curr_user.last_name }}</td>
             </tr>
             <tr>
                 <th scope="row">E-mail</th>
-                <td>{{ user.email }}</td>
+                <td>{{ curr_user.email }}</td>
             </tr>
         </table>
     </div>

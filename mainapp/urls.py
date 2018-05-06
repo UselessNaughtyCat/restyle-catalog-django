@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 
 from . import views
@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.MainView.as_view(), name='main'),
     path('sites/', views.SiteListView.as_view(), name='sites'),
-    path('styles/', views.StyleListView.as_view(), name='styles'),
+    re_path(r'styles/(?:(?P<site_name>\w+)/)?$', views.StyleListView.as_view(), name='styles'),
     path('style/<int:style_id>', views.StyleInfoView.as_view(), name='style-info'),
     path('profile/<int:person_id>', views.ProfileInfoView.as_view(), name='profile'),
 
