@@ -58,7 +58,8 @@ class ProfileInfoView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         self.person_id = self.kwargs["person_id"]
-        self.is_self_person = int(request.user.id) == int(self.kwargs["person_id"])
+        if not request.user.id == None:
+            self.is_self_person = int(request.user.id) == int(self.kwargs["person_id"])
         return super(ProfileInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
