@@ -23,7 +23,7 @@ class StyleListView(TemplateView):
     site_name = None
 
     def get(self, request, *args, **kwargs):
-        if not (self.kwargs["site_name"] == None):
+        if not self.kwargs["site_name"] is None:
             self.site_name = self.kwargs["site_name"]
 
         return super(StyleListView, self).get(request, *args, **kwargs)
@@ -58,7 +58,7 @@ class ProfileInfoView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         self.person_id = self.kwargs["person_id"]
-        if not request.user.id == None:
+        if not request.user.id is None:
             self.is_self_person = int(request.user.id) == int(self.kwargs["person_id"])
         return super(ProfileInfoView, self).get(request, *args, **kwargs)
 
