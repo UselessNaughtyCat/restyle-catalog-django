@@ -49,7 +49,7 @@
             <div class="card-header font-weight-bold">{{ style.name }}</div>
             <img class="card-img-top" src="{{ style.image.url }}" alt="Card image cap">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-light custom-list-group-item-small">Автор: <a href="{% url 'profile' style.creator.id %}">{{ style.creator }}</a></li>
+                <li class="list-group-item bg-light custom-list-group-item-small">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
                 <!-- <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li> -->

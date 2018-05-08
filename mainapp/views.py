@@ -40,33 +40,36 @@ class StyleListView(TemplateView):
 
 class StyleInfoView(TemplateView):
     template_name = "style_info.html"
-    style = 0
+    style = None
+    is_self_person = False
 
     def get(self, request, *args, **kwargs):
-        self.style = self.kwargs["style_id"]
+        self.style = Style.objects.get(id=self.kwargs["style_id"])
+        if not request.user is None:
+            self.is_self_person = request.user == self.style.creator
         return super(StyleInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(StyleInfoView, self).get_context_data(**kwargs)
-        context['style'] = Style.objects.get(id=self.style)
+        context['style'] = self.style
+        context['is_self_person'] = self.is_self_person
         return context
 
-class ProfileInfoView(TemplateView):
+class PersonInfoView(TemplateView):
     template_name = "person_info.html"
-    person_id = None
+    curr_user = None
     is_self_person = False
 
     def get(self, request, *args, **kwargs):
-        self.person_id = self.kwargs["person_id"]
-        if not request.user.id is None:
-            self.is_self_person = int(request.user.id) == int(self.kwargs["person_id"])
-        return super(ProfileInfoView, self).get(request, *args, **kwargs)
+        self.curr_user = User.objects.get(id=self.kwargs["person_id"])
+        if not request.user is None:
+            self.is_self_person = request.user == self.curr_user
+        return super(PersonInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ProfileInfoView, self).get_context_data(**kwargs)
-        current_user = User.objects.get(id=self.person_id)
-        context['curr_user'] = current_user
-        context['curr_user_subs'] = current_user.person.subscriptions.all()
-        context['curr_user_works'] = Style.objects.filter(creator=current_user.id)
+        context = super(PersonInfoView, self).get_context_data(**kwargs)
+        context['curr_user'] = self.curr_user
+        context['curr_user_subs'] = self.curr_user.person.subscriptions.all()
+        context['curr_user_works'] = Style.objects.filter(creator=self.curr_user)
         context['is_self_person'] = self.is_self_person
         return context

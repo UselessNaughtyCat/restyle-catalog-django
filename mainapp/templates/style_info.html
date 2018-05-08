@@ -6,11 +6,13 @@
 <div class="row">
     <div class="col-12 col-sm-8 col-lg-8">
         <h1 class="font-weight-bold">{{ style.name }}</h1>
-        <h5 class="text-muted">Автор: <a href="{% url 'profile' style.creator.id %}">{{ style.creator }}</a></h5>
+        <h5 class="text-muted">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></h5>
     </div>
     <div class="col-2 col-sm-4 col-lg-4 text-right">
         {% if user.is_authenticated %}
+            {% if not is_self_person %}
             <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
+            {% endif %}
         {% else %}
             <div type="button" class="btn btn-outline-secondary btn-lg disabled">Войдите для подписки</div>
         {% endif %}
