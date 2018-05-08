@@ -41,18 +41,22 @@ class StyleListView(TemplateView):
 class StyleInfoView(TemplateView):
     template_name = "style_info.html"
     style = None
+    is_person_subscibed = False
     is_self_person = False
 
     def get(self, request, *args, **kwargs):
         self.style = Style.objects.get(id=self.kwargs["style_id"])
         if not request.user is None:
             self.is_self_person = request.user == self.style.creator
+            if self.style in request.user.person.subscriptions.all():
+                self.is_person_subscibed = True
         return super(StyleInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(StyleInfoView, self).get_context_data(**kwargs)
         context['style'] = self.style
         context['is_self_person'] = self.is_self_person
+        context['is_person_subscibed'] = self.is_person_subscibed
         return context
 
 class PersonInfoView(TemplateView):

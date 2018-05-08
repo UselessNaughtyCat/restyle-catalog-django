@@ -4,14 +4,25 @@
 {% endblock %}
 {% block main %}
 <div class="row">
-    <div class="col-12 col-sm-8 col-lg-8">
+    <div class="col-12 col-sm-7 col-lg-8">
         <h1 class="font-weight-bold">{{ style.name }}</h1>
         <h5 class="text-muted">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></h5>
     </div>
-    <div class="col-2 col-sm-4 col-lg-4 text-right">
+    <div class="col-2 col-sm-5 col-lg-4 text-right">
         {% if user.is_authenticated %}
             {% if not is_self_person %}
-            <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
+                {% if is_person_subscibed %}
+                <button type="button" class="btn btn-outline-secondary btn-lg">Отписаться</button>
+                {% else %}
+                <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
+                {% endif %}
+            {% else %}
+            <h2>
+                <div class="btn-group btn-group-justified">
+                    <a href="#" class="btn btn-secondary">Изменить</a>
+                    <a href="#" class="btn btn-danger">Удалить</a>
+                </div>
+            </h2>
             {% endif %}
         {% else %}
             <div type="button" class="btn btn-outline-secondary btn-lg disabled">Войдите для подписки</div>

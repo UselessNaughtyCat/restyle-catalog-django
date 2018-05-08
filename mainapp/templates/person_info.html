@@ -4,16 +4,16 @@
 {% endblock %}
 {% block main %}
 <div class="row">
-    <div class="col-12 col-sm-8 col-lg-8">
+    <div class="col-12 col-sm-9 col-lg-8">
         <h1 class="font-weight-bold">{{ curr_user.username }}{% if is_self_person %}<small class="text-muted"> (Это вы)</small>{% endif %}</h1>
     </div>
-    <div class="col-2 col-sm-4 col-lg-4 text-right">
+    <div class="col-2 col-sm-3 col-lg-4 text-right">
         {% if user.is_authenticated %}
             {% if not is_self_person %}
-            <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
+            <button type="button" class="btn btn-outline-secondary">Подписаться</button>
             {% endif %}
         {% else %}
-            <div type="button" class="btn btn-outline-secondary btn-lg disabled">Войдите для подписки</div>
+            <div type="button" class="btn btn-outline-secondary disabled">Войдите для подписки</div>
         {% endif %}
     </div>
 </div>
@@ -24,39 +24,47 @@
 <h6 class="font-weight-bold">Созданные стили:</h6>
 <div class="row">
     {% for style in curr_user_works %}
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
+    <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
-            <div class="card-header font-weight-bold">{{ style.name }}</div>
+            <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name }}</a>
             <img class="card-img-top" src="{{ style.image.url }}" alt="Card image cap">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
             </ul>
+            {% if is_self_person %}
             <div class="card-body">
-                <a href="{% url 'style-info' style.id %}" class="btn btn-primary">Подробнее</a>
-            </div>
+                <div class="btn-group btn-group-justified w-100">
+                    <a href="#" class="btn btn-secondary w-50">Изменить</a>
+                    <a href="#" class="btn btn-danger w-50">Удалить</a>
+                </div>
+            </div> 
+            {% endif %}
         </div>
     </div>
     {% endfor %}
-</div>
+</div> 
+{% if is_self_person %}
+<a class="btn btn-secondary text-light">Создать ещё</a>
+ {% endif %}
 <hr class="my-4">
 <h6 class="font-weight-bold">Подписки:</h6>
 <div class="row">
     {% for style in curr_user_subs %}
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
+    <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
-            <div class="card-header font-weight-bold">{{ style.name }}</div>
+            <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name }}</a>
             <img class="card-img-top" src="{{ style.image.url }}" alt="Card image cap">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-light custom-list-group-item-small">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
-                <!-- <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
-                <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li> -->
+                <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
+                <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
             </ul>
-            <div class="card-body">
-                <a href="{% url 'style-info' style.id %}" class="btn btn-primary">Подробнее</a>
-            </div>
+            <!-- <div class="card-body">
+                <a class="btn btn-primary">Подробнее</a>
+            </div> -->
         </div>
     </div>
     {% endfor %}

@@ -8,7 +8,7 @@
     {% for style in styles %}
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
-            <div class="card-header font-weight-bold">{{ style.name }}</div>
+            <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name }}</a>
             <img class="card-img-top" src="{{ style.image.url }}" alt="Card image cap">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-light custom-list-group-item-small">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
@@ -16,9 +16,9 @@
                 <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
             </ul>
-            <div class="card-body">
-                <a href="{% url 'style-info' style.id %}" class="btn btn-primary">Подробнее</a>
-            </div>
+            <!-- <div class="card-body">
+                <a class="btn btn-primary">Подробнее</a>
+            </div> -->
         </div>
     </div>
     {% endfor %}
