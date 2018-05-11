@@ -23,8 +23,8 @@ class StyleListView(TemplateView):
     site_name = None
 
     def get(self, request, *args, **kwargs):
-        if not self.kwargs["site_name"] is None:
-            self.site_name = self.kwargs["site_name"]
+        if not request.GET.get("site", "") is None:
+            self.site_name = request.GET.get("site", "")
 
         return super(StyleListView, self).get(request, *args, **kwargs)
 

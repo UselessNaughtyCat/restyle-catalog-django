@@ -1,13 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class SiteUrls(models.Model):
+    url = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return self.url
+
 class Site(models.Model):
     name = models.CharField(max_length=1024)
-    url = models.CharField(max_length=1024)
+    urls = models.ManyToManyField(SiteUrls, blank=True)
     image = models.ImageField(upload_to='images/site_logos/', null=True, blank=True)
-
-    # class Meta:
-    #     ordering = ["name"]
 
     def __str__(self):
         return self.name
