@@ -46,7 +46,7 @@
     {% endfor %}
 </div> 
 {% if is_self_person %}
-<a class="btn btn-secondary text-light">Создать ещё</a>
+<a href="{% url 'style-add' %}" class="btn btn-secondary text-light">Создать ещё</a>
  {% endif %}
 <hr class="my-4">
 <h6 class="font-weight-bold">Подписки:</h6>

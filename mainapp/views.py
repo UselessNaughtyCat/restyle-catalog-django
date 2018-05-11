@@ -1,4 +1,5 @@
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
@@ -58,6 +59,16 @@ class StyleInfoView(TemplateView):
         context['is_self_person'] = self.is_self_person
         context['is_person_subscibed'] = self.is_person_subscibed
         return context
+
+class StyleCreate(CreateView):
+    model = Style
+    template_name = "style_add.html"
+    fields = ["name", "image", "site", "description", "css_src"]
+    success_url = "/"
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
 
 class PersonInfoView(TemplateView):
     template_name = "person_info.html"
