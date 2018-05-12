@@ -100,6 +100,28 @@ class StyleUpdate(UpdateView):
         context['title'] = "Изменить стиль"
         return context
 
+class StyleDelete(DeleteView):
+    model = Style
+    form_class = StyleForm
+    template_name = "style_delete.html"
+    pk_url_kwarg = "style_id"
+    success_url = "/"
+
+    def get(self, request, *args, **kwargs):
+        style = Style.objects.get(id=self.kwargs["style_id"])
+        if not request.user is None:
+            if request.user != style.creator:
+                return redirect('style-info', style_id=style.id)
+            else:
+                return super(StyleDelete, self).get(request, *args, **kwargs)
+        else:
+            return super(StyleDelete, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StyleDelete, self).get_context_data(**kwargs)
+        context['style'] = Style.objects.get(id=self.kwargs["style_id"])
+        return context
+
 class PersonInfoView(TemplateView):
     template_name = "person_info.html"
     curr_user = None

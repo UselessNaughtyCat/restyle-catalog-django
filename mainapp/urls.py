@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('style/add', login_required(views.StyleCreate.as_view()), name='style-add'),
     path('style/<int:style_id>/update', login_required(views.StyleUpdate.as_view()), name='style-update'),
+    path('style/<int:style_id>/delete', login_required(views.StyleDelete.as_view()), name='style-delete'),
 
     path('login/', auth_views.login, name='login'),
     path('logout/', auth_views.logout, {'next_page': 'main'}, name='logout'),
