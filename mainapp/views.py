@@ -2,8 +2,10 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
-from mainapp.models import Style, Site
+from .models import Style, Site
+from .forms import StyleForm
 
 def hello(request):
     return HttpResponse("U EXPECT SOME HELLO SHIT?<BR><H1>GTFO</H1>")
@@ -48,9 +50,10 @@ class StyleInfoView(TemplateView):
     def get(self, request, *args, **kwargs):
         self.style = Style.objects.get(id=self.kwargs["style_id"])
         if not request.user is None:
-            self.is_self_person = request.user == self.style.creator
-            if self.style in request.user.person.subscriptions.all():
-                self.is_person_subscibed = True
+            if not request.user.is_anonymous:
+                self.is_self_person = request.user == self.style.creator
+                if self.style in request.user.person.subscriptions.all():
+                    self.is_person_subscibed = True
         return super(StyleInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -62,13 +65,40 @@ class StyleInfoView(TemplateView):
 
 class StyleCreate(CreateView):
     model = Style
-    template_name = "style_add.html"
-    fields = ["name", "image", "site", "description", "css_src"]
+    form_class = StyleForm
+    template_name = "style_edit.html"
     success_url = "/"
+
+    def get_context_data(self, **kwargs):
+        context = super(StyleCreate, self).get_context_data(**kwargs)
+        context['title'] = "Добавить стиль"
+        return context
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+
+class StyleUpdate(UpdateView):
+    model = Style
+    form_class = StyleForm
+    template_name = "style_edit.html"
+    pk_url_kwarg = "style_id"
+    success_url = "/"
+
+    def get(self, request, *args, **kwargs):
+        style = Style.objects.get(id=self.kwargs["style_id"])
+        if not request.user is None:
+            if request.user != style.creator:
+                return redirect('style-info', style_id=style.id)
+            else:
+                return super(StyleUpdate, self).get(request, *args, **kwargs)
+        else:
+            return super(StyleUpdate, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StyleUpdate, self).get_context_data(**kwargs)
+        context['title'] = "Изменить стиль"
+        return context
 
 class PersonInfoView(TemplateView):
     template_name = "person_info.html"
@@ -78,7 +108,8 @@ class PersonInfoView(TemplateView):
     def get(self, request, *args, **kwargs):
         self.curr_user = User.objects.get(id=self.kwargs["person_id"])
         if not request.user is None:
-            self.is_self_person = request.user == self.curr_user
+            if not request.user.is_anonymous:
+                self.is_self_person = request.user == self.curr_user
         return super(PersonInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

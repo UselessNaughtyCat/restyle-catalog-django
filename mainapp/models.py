@@ -17,11 +17,11 @@ class Site(models.Model):
 
 class Style(models.Model):
     name = models.CharField(max_length=1024)
-    css_src = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='images/style_logos/', null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
+    css_src = models.TextField(null=True, blank=True)
     upload_date = models.DateField(auto_now_add=True)
     last_update = models.DateField(auto_now=True)
     subscribed = models.IntegerField(default=0)

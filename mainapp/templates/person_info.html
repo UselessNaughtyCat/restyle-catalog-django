@@ -10,10 +10,10 @@
     <div class="col-2 col-sm-3 col-lg-4 text-right">
         {% if user.is_authenticated %}
             {% if not is_self_person %}
-            <button type="button" class="btn btn-outline-secondary">Подписаться</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
             {% endif %}
         {% else %}
-            <div type="button" class="btn btn-outline-secondary disabled">Войдите для подписки</div>
+            <div type="button" class="btn btn-outline-secondary disabled btn-lg">Войдите для подписки</div>
         {% endif %}
     </div>
 </div>
@@ -36,7 +36,7 @@
             {% if is_self_person %}
             <div class="card-body py-2">
                 <div  class="btn-toolbar">
-                    <a href="#" class="btn btn-outline-secondary btn-sm w-50">Изменить</a>
+                    <a href="{% url 'style-update' style.id %}" class="btn btn-outline-secondary btn-sm w-50">Изменить</a>
                     <a href="#" class="btn btn-outline-danger btn-sm w-50">Удалить</a>
                 </div>
             </div> 
@@ -62,9 +62,6 @@
                 <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
             </ul>
-            <!-- <div class="card-body">
-                <a class="btn btn-primary">Подробнее</a>
-            </div> -->
         </div>
     </div>
     {% endfor %}
