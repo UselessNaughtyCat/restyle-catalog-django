@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}
-{{ curr_user.username }}
+{{ person.user.username }}
 {% endblock %}
 {% block main %}
 <div class="row">
     <div class="col-12 col-sm-9 col-lg-8">
-        <h1 class="font-weight-bold">{{ curr_user.username }}{% if is_self_person %}<small class="text-muted"> (Это вы)</small>{% endif %}</h1>
+        <h1 class="font-weight-bold">{{ person.user.username }}{% if person_is_current %}<small class="text-muted"> (Это вы)</small>{% endif %}</h1>
     </div>
     <div class="col-2 col-sm-3 col-lg-4 text-right">
         {% if user.is_authenticated %}
-            {% if not is_self_person %}
+            {% if not person_is_current %}
             <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
             {% endif %}
         {% else %}
@@ -19,21 +19,21 @@
 </div>
 <hr class="my-4">
 <h6 class="font-weight-bold">Описание:</h6>
-<p class="text-small-padding">{{ curr_user.person.description }}</p>
+<p class="text-small-padding">{{ person.description }}</p>
 <hr class="my-4">
 <h6 class="font-weight-bold">Созданные стили:</h6>
 <div class="row">
-    {% for style in curr_user_works %}
+    {% for style in person_works %}
     <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
             <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name }}</a>
-            <img class="card-img-top" src="{{ style.image.url }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ style.logo.url }}" alt="Card logo cap">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
             </ul>
-            {% if is_self_person %}
+            {% if person_is_current %}
             <div class="card-body py-2">
                 <div class="btn-toolbar">
                     <a href="{% url 'style-update' style.id %}" class="btn btn-outline-secondary btn-sm w-50">Изменить</a>
@@ -45,17 +45,17 @@
     </div>
     {% endfor %}
 </div> 
-{% if is_self_person %}
+{% if person_is_current %}
 <a href="{% url 'style-add' %}" class="btn btn-secondary text-light">Создать ещё</a>
  {% endif %}
 <hr class="my-4">
 <h6 class="font-weight-bold">Подписки:</h6>
 <div class="row">
-    {% for style in curr_user_subs %}
+    {% for style in person_subs %}
     <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
             <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name }}</a>
-            <img class="card-img-top" src="{{ style.image.url }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ style.logo.url }}" alt="Card logo cap">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-light custom-list-group-item-small">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
                 <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
@@ -73,11 +73,11 @@
         <table class="table table-borderless">
             <tr>
                 <th scope="row">Настоящее имя</th>
-                <td>{{ curr_user.first_name }} {{ curr_user.last_name }}</td>
+                <td>{{ person.user.first_name }} {{ person.user.last_name }}</td>
             </tr>
             <tr>
                 <th scope="row">E-mail</th>
-                <td>{{ curr_user.email }}</td>
+                <td>{{ person.user.email }}</td>
             </tr>
         </table>
     </div>

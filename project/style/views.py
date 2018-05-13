@@ -1,28 +1,20 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.shortcuts import redirect
 
-from .models import Style, Site
-from .forms import StyleForm
-
-def hello(request):
-    return HttpResponse("U EXPECT SOME HELLO SHIT?<BR><H1>GTFO</H1>")
-
-class MainView(TemplateView):
-    template_name = "mainpage.html"
+from project.style.models import Site, Style
+from project.style.forms import StyleForm
 
 class SiteListView(TemplateView):
-    template_name = "site_catalog.html"
-
+    template_name = "style/sites.html"
+    
     def get_context_data(self, **kwargs):
         context = super(SiteListView, self).get_context_data(**kwargs)
         context["sites"] = Site.objects.all()
         return context
 
 class StyleListView(TemplateView):
-    template_name = "style_catalog.html"
+    template_name = "style/catalog.html"
     site_name = None
 
     def get(self, request, *args, **kwargs):
@@ -35,23 +27,23 @@ class StyleListView(TemplateView):
         context = super(StyleListView, self).get_context_data(**kwargs)
         if self.site_name:
             curr_site = Site.objects.get(name=self.site_name)
-            context['styles'] = Style.objects.filter(site=curr_site)
+            context['styles'] = Style.objects.filter(site=curr_site).order_by("-upload_date")
         else:
-            context['styles'] = Style.objects.all()
+            context['styles'] = Style.objects.all().order_by("-upload_date")
 
         return context
 
 class StyleInfoView(TemplateView):
-    template_name = "style_info.html"
+    template_name = "style/info.html"
     style = None
     is_person_subscibed = False
     is_self_person = False
 
     def get(self, request, *args, **kwargs):
-        self.style = Style.objects.get(id=self.kwargs["style_id"])
+        self.style = Style.objects.get(pk=self.kwargs["style_id"])
         if not request.user is None:
             if not request.user.is_anonymous:
-                self.is_self_person = request.user == self.style.creator
+                self.is_self_person = request.user == self.style.creator.user
                 if self.style in request.user.person.subscriptions.all():
                     self.is_person_subscibed = True
         return super(StyleInfoView, self).get(request, *args, **kwargs)
@@ -66,7 +58,7 @@ class StyleInfoView(TemplateView):
 class StyleCreate(CreateView):
     model = Style
     form_class = StyleForm
-    template_name = "style_edit.html"
+    template_name = "style/edit.html"
     success_url = "/"
 
     def get_context_data(self, **kwargs):
@@ -75,20 +67,20 @@ class StyleCreate(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.creator = self.request.user
+        form.instance.creator = self.request.user.person
         return super().form_valid(form)
 
 class StyleUpdate(UpdateView):
     model = Style
     form_class = StyleForm
-    template_name = "style_edit.html"
+    template_name = "style/edit.html"
     pk_url_kwarg = "style_id"
     success_url = "/"
 
     def get(self, request, *args, **kwargs):
         style = Style.objects.get(id=self.kwargs["style_id"])
         if not request.user is None:
-            if request.user != style.creator:
+            if request.user != style.creator.user:
                 return redirect('style-info', style_id=style.id)
             else:
                 return super(StyleUpdate, self).get(request, *args, **kwargs)
@@ -103,7 +95,7 @@ class StyleUpdate(UpdateView):
 class StyleDelete(DeleteView):
     model = Style
     form_class = StyleForm
-    template_name = "style_delete.html"
+    template_name = "style/remove.html"
     pk_url_kwarg = "style_id"
     success_url = "/"
 
@@ -120,24 +112,4 @@ class StyleDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super(StyleDelete, self).get_context_data(**kwargs)
         context['style'] = Style.objects.get(id=self.kwargs["style_id"])
-        return context
-
-class PersonInfoView(TemplateView):
-    template_name = "person_info.html"
-    curr_user = None
-    is_self_person = False
-
-    def get(self, request, *args, **kwargs):
-        self.curr_user = User.objects.get(id=self.kwargs["person_id"])
-        if not request.user is None:
-            if not request.user.is_anonymous:
-                self.is_self_person = request.user == self.curr_user
-        return super(PersonInfoView, self).get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(PersonInfoView, self).get_context_data(**kwargs)
-        context['curr_user'] = self.curr_user
-        context['curr_user_subs'] = self.curr_user.person.subscriptions.all()
-        context['curr_user_works'] = Style.objects.filter(creator=self.curr_user)
-        context['is_self_person'] = self.is_self_person
         return context

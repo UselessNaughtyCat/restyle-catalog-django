@@ -1,15 +1,15 @@
 from django.forms import ModelForm
 
-from .models import Style, Site
+from project.style.models import Site, Style
 
 class StyleForm(ModelForm):
     class Meta:
         model = Style
-        fields = ["name", "image", "site", "description", "css_src"]
+        fields = ["name", "logo", "site", "description", "source"]
         labels = {
             "name": "Название",
-            "image": "Логотип",
+            "logo": "Логотип",
             "site": "Сайт",
             "description": "Описание",
-            "css_src": "CSS"
+            "source": "CSS"
         }

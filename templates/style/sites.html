@@ -9,20 +9,16 @@
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
         <div class="card bg-light">
             <div class="card-body">
-                <ul class="list-inline mb-0">
+                <ul class="list-inline mb-0 d-flex">
                     <li class="list-inline-item">
-                        <img src="{{ site.image.url }}" class="rounded">
+                        <img src="{{ site.logo.url }}" alt="/images/site/not-exist.jpg" class="rounded pt-2">
                     </li>
                     <li class="list-inline-item">
-                        <h4>{{ site.name }}</h4>
+                        <div>{{ site.name }}</div>
+                        <div>Всего стилей: 0</div>
+                        <a href="{% url 'styles' %}?site={{ site.name }}">Посмотреть стили</a>
                     </li>
                 </ul>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-light custom-list-group-item-small">Всего стилей: 0</li>
-            </ul>
-            <div class="card-body py-2">
-                <a href="{% url 'styles' %}?site={{ site.name }}" class="btn btn-outline-secondary btn-sm">Посмотреть стили</a>
             </div>
         </div>
     </div>

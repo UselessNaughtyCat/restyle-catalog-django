@@ -1,7 +1,11 @@
 .vscode/
-media/images/site_logos/*
-media/images/style_logos/*
+restyle.code-workspace
+media/images/site/*
+!media/images/site/not-exist.jpg
+media/images/style/*
+!media/images/style/not-exist.jpg
 static/css/bootstrap/
+!static/css/
 static/js/bootstrap/
 static/js/jquery-3.3.1.min.js
-.env
+!static/js/
