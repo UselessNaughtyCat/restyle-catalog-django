@@ -5,7 +5,9 @@ media/images/site/*
 media/images/style/*
 !media/images/style/not-exist.jpg
 static/css/bootstrap/
+!static/css
 !static/css/
 static/js/bootstrap/
 static/js/jquery-3.3.1.min.js
+!static/js
 !static/js/
