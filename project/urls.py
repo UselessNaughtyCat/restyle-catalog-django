@@ -36,8 +36,9 @@ urlpatterns = [
     path('style/<int:style_id>/delete', login_required(styles.StyleDelete.as_view()), name='style-delete'),
 
     path('person/<int:person_id>', persons.PersonInfoView.as_view(), name='person'),
-    path('login/', auth.login, {'template_name': 'person/login.html'}, name='login'),
-    path('logout/', auth.logout, {'next_page': 'main'}, name='logout'),
+    path('register/', persons.RegisterFormView.as_view(), name='register'),
+    path('login/', persons.LoginFormView.as_view(), name='login'),
+    path('logout/', persons.LogoutView.as_view(), name='logout'),
 
     path('admin/', admin.site.urls),
 ]

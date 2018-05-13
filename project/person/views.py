@@ -1,7 +1,10 @@
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
 from django.contrib.auth.models import User
+from django.contrib.auth import login, logout
+from django.http import HttpResponseRedirect
 
-from project.person.models import Person
+from project.person import forms
 from project.style.models import Style
 
 class PersonInfoView(TemplateView):
@@ -23,3 +26,23 @@ class PersonInfoView(TemplateView):
         context['person_works'] = Style.objects.filter(creator=self.person)
         context['person_is_current'] = self.is_current
         return context
+
+class RegisterFormView(FormView):
+    form_class = forms.RegisterForm
+    success_url = "/login/"
+    template_name = "person/register.html"
+
+class LoginFormView(FormView):
+    form_class = forms.LoginForm
+    template_name = "person/login.html"
+    success_url = "/"
+
+    def form_valid(self, form):
+        self.user = form.get_user()
+        login(self.request, self.user)
+        return super(LoginFormView, self).form_valid(form)
+
+class LogoutView(TemplateView):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect("/")

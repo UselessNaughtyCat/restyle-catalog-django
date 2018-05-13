@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <a class="btn btn-sm btn-outline-light" href="#">Зарегистрироваться</a>
+                    <a class="btn btn-sm btn-outline-light" href="{% url 'register' %}">Зарегистрироваться</a>
                     <a class="btn btn-sm btn-outline-light" href="{% url 'login' %}">Войти</a>
                     {% endif %}
                 </span>
