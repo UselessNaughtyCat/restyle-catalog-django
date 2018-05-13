@@ -133,7 +133,7 @@ class StyleDelete(DeleteView):
     def get(self, request, *args, **kwargs):
         style = Style.objects.get(id=self.kwargs["style_id"])
         if not request.user is None:
-            if request.user != style.creator:
+            if request.user != style.creator.user:
                 return redirect('style-info', style_id=style.id)
             else:
                 return super(StyleDelete, self).get(request, *args, **kwargs)
