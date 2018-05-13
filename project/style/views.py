@@ -2,7 +2,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
 
-from project.style.models import Site, Style
+from project.style.models import Url, Site, Style
 from project.style.forms import StyleForm
 
 class SiteListView(TemplateView):
@@ -55,6 +55,15 @@ class StyleInfoView(TemplateView):
         context['is_person_subscibed'] = self.is_person_subscibed
         return context
 
+def get_new_site(site_name, site_urls):
+    new_urls = site_urls.split(" ")
+    new_site = Site.objects.create(name=site_name)
+    for new_url in new_urls:
+        tmp_url = Url.objects.create(name=new_url)
+        tmp_url.save()
+        new_site.urls.add(tmp_url)
+    return new_site
+
 class StyleCreate(CreateView):
     model = Style
     form_class = StyleForm
@@ -66,8 +75,17 @@ class StyleCreate(CreateView):
         context['title'] = "Добавить стиль"
         return context
 
+    def post(self, request, *args, **kwargs):
+        site_name = request.POST.get("site_name", "")
+        site_urls = request.POST.get("site_urls", "")
+        if site_name != "" and site_urls != "":
+            self.new_site = get_new_site(site_name, site_urls)
+        return super(StyleCreate, self).post(request, *args, **kwargs)
+
     def form_valid(self, form):
         form.instance.creator = self.request.user.person
+        if not self.new_site is None:
+            form.instance.site = self.new_site
         return super().form_valid(form)
 
 class StyleUpdate(UpdateView):
@@ -76,6 +94,7 @@ class StyleUpdate(UpdateView):
     template_name = "style/edit.html"
     pk_url_kwarg = "style_id"
     success_url = "/"
+    new_site = None
 
     def get(self, request, *args, **kwargs):
         style = Style.objects.get(id=self.kwargs["style_id"])
@@ -87,10 +106,22 @@ class StyleUpdate(UpdateView):
         else:
             return super(StyleUpdate, self).get(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        site_name = request.POST.get("site_name", "")
+        site_urls = request.POST.get("site_urls", "")
+        if site_name != "" and site_urls != "":
+            self.new_site = get_new_site(site_name, site_urls)
+        return super(StyleUpdate, self).post(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(StyleUpdate, self).get_context_data(**kwargs)
         context['title'] = "Изменить стиль"
         return context
+
+    def form_valid(self, form):
+        if not self.new_site is None:
+            form.instance.site = self.new_site
+        return super().form_valid(form)
 
 class StyleDelete(DeleteView):
     model = Style
