@@ -1,6 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
-
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from project.person.models import Person
 
 class RegisterForm(UserCreationForm):
@@ -9,13 +9,13 @@ class RegisterForm(UserCreationForm):
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class' : 'form-control'})
 
-    # def save(self, commit=True):
-    #     reg_user = super(RegisterForm, self).save(commit=False)
-    #     print(reg_user)
-    #     if commit:
-    #         reg_user.save()
-    #     Person.objects.create(user=reg_user)
-    #     return reg_user
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+            Person.objects.create(user=user)
+        return user
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):

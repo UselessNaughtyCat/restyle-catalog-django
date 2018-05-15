@@ -1,5 +1,5 @@
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
@@ -27,7 +27,7 @@ class PersonInfoView(TemplateView):
         context['person_is_current'] = self.is_current
         return context
 
-class RegisterFormView(FormView):
+class RegisterFormView(CreateView):
     form_class = forms.RegisterForm
     success_url = "/login/"
     template_name = "person/register.html"
