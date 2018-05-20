@@ -14,18 +14,24 @@ class Site(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ["pk"]
 
 class Style(models.Model):
     name = models.CharField(max_length=1024)
     logo = models.ImageField(upload_to="images/style/", default='/images/style/not-exist.jpg')
     creator = models.ForeignKey('person.Person', on_delete=models.CASCADE, null=True, blank=True)
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    description = models.TextField(null=True, blank=True)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True)
+    description = models.TextField(default="[Здесь могло быть ваше описание]", blank=True)
     source = models.TextField(null=True, blank=True)
     upload_date = models.DateField(auto_now_add=True)
     last_update = models.DateField(auto_now=True)
     subscribed = models.IntegerField(default=0)
     average_rating = models.FloatField(default=0)
+
+    class Meta:
+        ordering = ["pk"]
 
     def __str__(self):
         return self.name

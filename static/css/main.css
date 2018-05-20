@@ -18,3 +18,7 @@ body {
 .text-small-padding {
   padding: .75rem;
 }
+.font-monospace {
+  font-family: 'Consolas', 'monospace';
+  font-size: 14px;
+}

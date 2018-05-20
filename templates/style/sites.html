@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}
 Список сайтов
 {% endblock %}
@@ -11,7 +12,7 @@
             <div class="card-body">
                 <ul class="list-inline mb-0 d-flex">
                     <li class="list-inline-item">
-                        <img src="{{ site.logo.url }}" alt="/images/site/not-exist.jpg" class="rounded pt-2">
+                        <img src="{% if site.logo|thumbnail_url:'site-logo-tmb' %}{{ site.logo|thumbnail_url:'site-logo-tmb' }}{% else %}/media/images/site/not-exist.jpg{% endif %}" class="rounded pt-1">
                     </li>
                     <li class="list-inline-item">
                         <div>{{ site.name }}</div>

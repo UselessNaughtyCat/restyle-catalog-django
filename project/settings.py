@@ -53,10 +53,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'project.main',
     'project.person',
     'project.style',
-    'widget_tweaks'
+
+    'widget_tweaks',
+    'easy_thumbnails'
 ]
 
 MIDDLEWARE = [
@@ -136,3 +139,12 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+THUMBNAIL_ALIASES = {
+    'style.Style.logo': {
+        'style-logo-tmb': {'size': (500, 250), 'crop': 'smart', 'upscale': True},
+    },
+    'style.Site.logo': {
+        'site-logo-tmb': {'size': (64, 64), 'crop': True},
+    },
+}

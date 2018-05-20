@@ -38,11 +38,11 @@ class LoginFormView(FormView):
     success_url = "/"
 
     def form_valid(self, form):
-        self.user = form.get_user()
-        login(self.request, self.user)
+        user = form.get_user()
+        login(self.request, user)
         return super(LoginFormView, self).form_valid(form)
 
 class LogoutView(TemplateView):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         logout(request)
         return HttpResponseRedirect("/")

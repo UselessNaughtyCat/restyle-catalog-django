@@ -23,47 +23,21 @@
 <hr class="my-4">
 <h6 class="font-weight-bold">Созданные стили:</h6>
 <div class="row">
-    {% for style in person_works %}
-    <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
-        <div class="card bg-light">
-            <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name }}</a>
-            <img class="card-img-top" src="{{ style.logo.url }}" alt="Card logo cap">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
-                <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
-                <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
-            </ul>
-            {% if person_is_current %}
-            <div class="card-body py-2">
-                <div class="btn-toolbar">
-                    <a href="{% url 'style-update' style.id %}" class="btn btn-outline-secondary btn-sm w-50">Изменить</a>
-                    <a href="{% url 'style-delete' style.id %}" class="btn btn-outline-danger btn-sm w-50">Удалить</a>
-                </div>
-            </div> 
-            {% endif %}
-        </div>
-    </div>
+    {% for person_work in person_works %}
+    {% with style=person_work can_edit=person_is_current  %}
+    {% include "style-card.html" %}
+    {% endwith %}
     {% endfor %}
 </div> 
-{% if person_is_current %}
-<a href="{% url 'style-add' %}" class="btn btn-secondary text-light">Создать ещё</a>
- {% endif %}
+{% if person_is_current %}<a href="{% url 'style-add' %}" class="btn btn-secondary text-light">Создать стиль</a>
+{% endif %}
 <hr class="my-4">
 <h6 class="font-weight-bold">Подписки:</h6>
 <div class="row">
-    {% for style in person_subs %}
-    <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
-        <div class="card bg-light">
-            <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name }}</a>
-            <img class="card-img-top" src="{{ style.logo.url }}" alt="Card logo cap">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-light custom-list-group-item-small">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
-                <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
-                <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
-                <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
-            </ul>
-        </div>
-    </div>
+    {% for person_sub in person_subs %}
+    {% with style=person_sub  %}
+    {% include "style-card.html" %}
+    {% endwith %}
     {% endfor %}
 </div>
 <hr class="my-4">
