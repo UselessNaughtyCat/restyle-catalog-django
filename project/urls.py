@@ -14,8 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
-from django.contrib.auth import views as auth
+from django.urls import path
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,12 +23,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from project.main.views import MainView
 from project.person import views as persons
 from project.style import views as styles
+from project.events import views as events
 
 urlpatterns = [
     path('', MainView.as_view(), name='main'),
 
     path('sites/', styles.SiteListView.as_view(), name='sites'),
-    re_path(r'styles/(?:(?P<site_name>\w+)/)?$', styles.StyleListView.as_view(), name='styles'),
+    path('styles/', styles.StyleListView.as_view(), name='styles'),
     path('style/<int:style_id>', styles.StyleInfoView.as_view(), name='style-info'),
     path('style/add', login_required(styles.StyleCreate.as_view()), name='style-add'),
     path('style/<int:style_id>/update', login_required(styles.StyleUpdate.as_view()), name='style-update'),
@@ -39,6 +39,8 @@ urlpatterns = [
     path('register/', persons.RegisterFormView.as_view(), name='register'),
     path('login/', persons.LoginFormView.as_view(), name='login'),
     path('logout/', persons.LogoutView.as_view(), name='logout'),
+
+    path('ajax/subscription', events.subscription),
 
     path('admin/', admin.site.urls),
 ]

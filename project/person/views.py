@@ -14,9 +14,8 @@ class PersonInfoView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         self.person = User.objects.get(id=self.kwargs["person_id"]).person
-        if not request.user is None:
-            if not request.user.is_anonymous:
-                self.is_current = request.user == self.person.user
+        if request.user.is_authenticated:
+            self.is_current = request.user == self.person.user
         return super(PersonInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

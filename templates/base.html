@@ -4,81 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} | Restyle Catalog</title>
-    <link type="text/css" rel="stylesheet" href="{% static "css/bootstrap/bootstrap.min.css" %}">
-    <link type="text/css" rel="stylesheet" href="{% static "css/main.css" %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href={% static "css/main.css" %}>
+    <script src={% static "js/utils.js" %}></script>
+    {% block js-head %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3 text-center">
-        <div class="container">
-            <a class="navbar-brand" href="#">Re:</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'main' %}">Домашняя страница</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'styles' %}">Каталог стилей</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'sites' %}">Список сайтов</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    {% if user.is_authenticated %}
-                    <div class="btn-group">
-                        <button class="btn btn-outline-light btn-sm dropdown-toggle font-weight-bold" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ user.username }}
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item text-dark" href="{% url 'person' user.id %}">Мой профиль</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-dark" href="{% url 'style-add' %}">Создать стиль</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-dark" href="{% url 'logout' %}">Выйти</a>
-                        </div>
-                    </div>
-                    {% else %}
-                    <a class="btn btn-sm btn-outline-light" href="{% url 'register' %}">Зарегистрироваться</a>
-                    <a class="btn btn-sm btn-outline-light" href="{% url 'login' %}">Войти</a>
-                    {% endif %}
-                </span>
-            </div>
-        </div>
-    </nav>
-
+    {% include "navbar.html" %}
     <div class="container">
         {% block main %}{% endblock %}
     </div>
-    
-    <footer class="footer font-small bg-dark text-white">
-        <div class="container">
-            <h5 class="text-uppercase text-center pt-4">Links</h5>
-            <div class="row">
-                <div class="col-6 col-sm-6 text-center">
-                    <ul class="list-unstyled">
-                        <li><a href="#!">Link 1</a></li>
-                        <li><a href="#!">Link 2</a></li>
-                        <li><a href="#!">Link 3</a></li>
-                        <li><a href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-sm-6 text-center">
-                    <ul class="list-unstyled">
-                        <li><a href="#!">Link 1</a></li>
-                        <li><a href="#!">Link 2</a></li>
-                        <li><a href="#!">Link 3</a></li>
-                        <li><a href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-copyright py-3 text-center">ReStyle Catalog</div>
-        </div>
-    </footer>
-
-    <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
-    <script src="{% static "js/bootstrap/bootstrap.min.js" %}"></script>
+    {% include "footer.html" %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% block js %}{% endblock %}
 </body>
 </html>

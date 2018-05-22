@@ -36,23 +36,22 @@ class StyleListView(TemplateView):
 class StyleInfoView(TemplateView):
     template_name = "style/info.html"
     style = None
-    is_person_subscibed = False
-    is_self_person = False
+    person_is_subscibed = False
+    person_is_current = False
 
     def get(self, request, *args, **kwargs):
         self.style = Style.objects.get(pk=self.kwargs["style_id"])
-        if not request.user is None:
-            if not request.user.is_anonymous:
-                self.is_self_person = request.user == self.style.creator.user
-                if self.style in request.user.person.subscriptions.all():
-                    self.is_person_subscibed = True
+        if request.user.is_authenticated:
+            self.person_is_current = request.user == self.style.creator.user
+            if self.style in request.user.person.subscriptions.all():
+                self.person_is_subscibed = True
         return super(StyleInfoView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(StyleInfoView, self).get_context_data(**kwargs)
         context['style'] = self.style
-        context['is_self_person'] = self.is_self_person
-        context['is_person_subscibed'] = self.is_person_subscibed
+        context['person_is_current'] = self.person_is_current
+        context['person_is_subscibed'] = self.person_is_subscibed
         return context
 
 def get_new_site(site_name, site_urls):

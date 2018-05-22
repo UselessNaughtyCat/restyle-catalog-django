@@ -1,19 +1,16 @@
 {% extends "base.html" %}
-{% block title %}
-{{ person.user.username }}
-{% endblock %}
+{% block title %}{{ person.user.username }}{% endblock %}
+
 {% block main %}
 <div class="row">
-    <div class="col-12 col-sm-9 col-lg-8">
+    <div class="col-sm-12 col-lg-9 col-xl-10">
         <h1 class="font-weight-bold">{{ person.user.username }}{% if person_is_current %}<small class="text-muted"> (Это вы)</small>{% endif %}</h1>
     </div>
-    <div class="col-2 col-sm-3 col-lg-4 text-right">
+    <div class="col-sm-12 col-lg-3 col-xl-2">
         {% if user.is_authenticated %}
-            {% if not person_is_current %}
-            <button type="button" class="btn btn-outline-secondary btn-lg">Подписаться</button>
+            {% if person_is_current %}
+            <div class="btn btn-outline-secondary btn-lg w-100">Настройки</div>
             {% endif %}
-        {% else %}
-            <div type="button" class="btn btn-outline-secondary disabled btn-lg">Войдите для подписки</div>
         {% endif %}
     </div>
 </div>

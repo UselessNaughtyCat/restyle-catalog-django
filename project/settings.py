@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'project.main',
     'project.person',
     'project.style',
+    'project.events',
 
     'widget_tweaks',
     'easy_thumbnails'
