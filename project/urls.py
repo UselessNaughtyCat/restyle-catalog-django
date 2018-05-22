@@ -41,6 +41,7 @@ urlpatterns = [
     path('logout/', persons.LogoutView.as_view(), name='logout'),
 
     path('ajax/subscription', events.subscription),
+    path('ajax/rating', events.rating),
 
     path('admin/', admin.site.urls),
 ]

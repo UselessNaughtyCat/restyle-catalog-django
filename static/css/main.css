@@ -25,3 +25,28 @@ body {
 .white-space-pre {
   white-space: pre;
 }
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  font-size: 0;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.25em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+   cursor: pointer;
+   color: gold;
+}
+
+.star {
+  margin-bottom: .5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 1.25rem;
+}

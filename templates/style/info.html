@@ -8,13 +8,13 @@
 {% block main %}
 <div class="row">
     <div class="col-sm-12 col-lg-9 col-xl-10">
-        <h1 class="font-weight-bold">{{ style.name }}</h1>
-        <h5 class="text-muted">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></h5>
+        <div class="h1 m-0 font-weight-bold">{{ style.name }}</div>
+        <div class="h5 mt-1 text-muted">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></div>
     </div>
     <div class="col-sm-12 col-lg-3 col-xl-2">
         {% if user.is_authenticated %}
         {% if person_is_current %}
-        <div class="dropdown">
+        <div class="dropdown m-0">
             <button class="btn btn-outline-secondary btn-lg w-100 dropdown-toggle" type="button" id="dd-creatorAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Действия
             </button>
@@ -27,6 +27,13 @@
         <button type="button" id="btnSub-{{ style.id }}" class="btn btn-outline-secondary btn-lg w-100">
             {% if person_is_subscibed %} Отписаться {% else %} Подписаться {% endif %}
         </button>
+        <div id="star-rating" class="mt-1 text-center rating">
+            <span id="rate-{{ style.id }}-5" class="star">☆</span>
+            <span id="rate-{{ style.id }}-4" class="star">☆</span>
+            <span id="rate-{{ style.id }}-3" class="star">☆</span>
+            <span id="rate-{{ style.id }}-2" class="star">☆</span>
+            <span id="rate-{{ style.id }}-1" class="star">☆</span>
+        </div>
         {% endif %}
         {% endif %}
     </div>
