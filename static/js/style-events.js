@@ -15,8 +15,9 @@ function subscriptionEvent() {
     })
     .then(responseJSON)
     .then(function (json) {
-        let isStyleSubscribed = json['subscribed']
-        elemSub.innerHTML = isStyleSubscribed ? "Отписаться" : "Подписаться"
+        console.log(json.subscribed)
+        elemSub.innerHTML = json.subscribed ? "Отписаться" : "Подписаться"
+        document.getElementById("subs-count").innerHTML = json.subs_count
     })
     elemSub.disabled = false
 }
