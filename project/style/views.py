@@ -27,9 +27,9 @@ class StyleListView(TemplateView):
         context = super(StyleListView, self).get_context_data(**kwargs)
         if self.site_name:
             curr_site = Site.objects.get(name=self.site_name)
-            context['styles'] = Style.objects.filter(site=curr_site).order_by("-upload_date")
+            context['styles'] = Style.objects.filter(site=curr_site).order_by("-id")
         else:
-            context['styles'] = Style.objects.all().order_by("-upload_date")
+            context['styles'] = Style.objects.all().order_by("-id")
 
         return context
 

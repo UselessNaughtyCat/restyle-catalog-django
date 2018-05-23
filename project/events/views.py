@@ -1,6 +1,6 @@
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from project.style.models import Style
 
@@ -22,7 +22,7 @@ def subscription(request):
                         response_data['subscribed'] = True
                     subs_style.save()
                     response_data['subs_count'] = subs_style.subscribed
-                    return HttpResponse(json.dumps(response_data), content_type="application/json", status=200)
+                    return JsonResponse(response_data)
                 else:
                     return HttpResponse(status=400)
             else:
@@ -45,7 +45,7 @@ def rating(request):
                     style.average_rating = (style.average_rating + rate)/2 if style.average_rating != 0 else rate
                     style.save()
                     response_data['average_rating'] = style.average_rating
-                    return HttpResponse(json.dumps(response_data), content_type="application/json", status=200)
+                    return JsonResponse(response_data)
                 else:
                     return HttpResponse(status=400)
             else:

@@ -1,0 +1,16 @@
+{
+    id: 0,
+    name: 'Dark theme',
+    author: 'author',
+    preview: 'https://www.sbs.com.au/popasia/sites/sbs.com.au.popasia/files/styles/full/public/end-of-evangelion.jpg',
+    enabled: true,
+    domains: [
+        'vk.com',
+        'vkontakte.ru',
+    ],
+    styles: {
+        body: {
+          background: '#000',
+        },
+    },
+}
