@@ -1,6 +1,48 @@
 {% extends "base.html" %}
-{% block title %}Главная страница{% endblock %}
+{% block title %}Main page{% endblock %}
+{% load staticfiles %}
+{% block js-head %}
+<script src={% static "js/main.js" %}></script> 
+{% endblock %}
 
 {% block main %}
-
+<div class="jumbotron text-center" id="t0">
+    <div class="display-1" id="t1">ReSTYLE</div>
+    <h2 id="t2">Easy way to customize your web pages</h2>
+    <h4 id="t3">Change the appearance of your favorite web pages as you need</h4>
+    <!--
+    <div class="display-1">АЯЗ!</div>
+    <h1>Заебошь короч ахуенный слоган для рестайла.</h1>
+    <h3>А то ты опять будешь бомбить, что я написал какой-то дуратский текст.</h3>
+    -->
+</div>
+<hr class="my-4">
+<h5 class="font-weight-bold">Top rated:</h5>
+<div class="row">
+    {% for style_high_rate in styles_high_rate %}
+    {% with style_high_rate as style %}
+    {% include "style-card.html" %}
+    {% endwith %}
+    {% endfor %}
+</div>
+<hr class="my-4">
+<h5 class="font-weight-bold">Top subscribed:</h5>
+<div class="row">
+    {% for style_many_subs in styles_many_subs %}
+    {% with style_many_subs as style %}
+    {% include "style-card.html" %}
+    {% endwith %}
+    {% endfor %}
+</div>
+<hr class="my-4">
+<h5 class="font-weight-bold">Last added:</h5>
+<div class="row">
+    {% for style_last_added in styles_last_added %}
+    {% with style_last_added as style %}
+    {% include "style-card.html" %}
+    {% endwith %}
+    {% endfor %}
+</div>
+<hr class="my-4">
+<hr class="my-4">
 {% endblock %}

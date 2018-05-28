@@ -16,7 +16,7 @@ function subscriptionEvent() {
     .then(responseJSON)
     .then(function (json) {
         console.log("subscribed: " + json.subscribed)
-        elem.innerHTML = json.subscribed ? "Отписаться" : "Подписаться"
+        elem.innerHTML = json.subscribed ? "Uninstall" : "Install"
         document.getElementById("subs-count").innerHTML = json.subs_count
     })
     elem.disabled = false

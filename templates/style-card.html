@@ -1,27 +1,27 @@
 {% load thumbnail %}
-<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
-    <div class="card bg-light">
-        <a class="card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name|default_if_none:"untitled" }}</a>
+<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 my-3">
+    <div class="card bg-card">
+        <a class="card-header bg-card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name|default_if_none:"untitled" }}</a>
         <img class="card-img rounded-0" src="{% if style.logo|thumbnail_url:'style-logo-tmb' %}{{ style.logo|thumbnail_url:'style-logo-tmb' }}{% else %}/media/images/style/not-exist.jpg{% endif %}">
         <ul class="list-group list-group-flush">
             {% if not style.creator is None %}
-            <li class="list-group-item bg-light custom-list-group-item-small">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
+            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Author:</b> <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
             {% endif %}
             {% if not style.site is None %}
-            <li class="list-group-item bg-light custom-list-group-item-small">Сайт: {{ style.site }}</li>
+            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Site:</b> {{ style.site }}</li>
             {% endif %}
             {% if not style.subscribed is None %}
-            <li class="list-group-item bg-light custom-list-group-item-small">Подписок: {{ style.subscribed }}</li>
+            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Installed:</b> {{ style.subscribed }}</li>
             {% endif %}
             {% if not style.average_rating is None %}
-            <li class="list-group-item bg-light custom-list-group-item-small">Оценка: {{ style.average_rating }}</li>
+            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Rating:</b> {{ style.average_rating }}</li>
             {% endif %}
         </ul>
         {% if can_edit %}
         <div class="card-body py-2">
             <div class="btn-toolbar">
-                <a href="{% url 'style-update' style.id %}" class="btn btn-outline-secondary btn-sm w-50">Изменить</a>
-                <a href="{% url 'style-delete' style.id %}" class="btn btn-outline-danger btn-sm w-50">Удалить</a>
+                <a href="{% url 'style-update' style.id %}" style="border-radius: 0;" class="btn btn-outline-primary-2 btn-sm w-50 rounded-left">Update</a>
+                <a href="{% url 'style-delete' style.id %}" style="border-radius: 0;" class="btn btn-outline-danger-2 btn-sm w-50 rounded-right">Delete</a>
             </div>
         </div>
         {% endif %}

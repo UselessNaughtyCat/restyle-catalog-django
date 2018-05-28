@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Удалить стиль{% endblock %}
+{% block title %}Delete style{% endblock %}
 
 {% block main %}
-<h2>Удалить стиль</h2>
+<h2>Delete style</h2>
 <form action="" method="post" class="pb-4">
     {% csrf_token %}
-    <h6 class="mt-3">Вы действительно хотите удалить '{{ style.name }}'?</h6>
-    <input type="submit" class="btn btn-outline-danger" value="Да">
-    <a href="{% url 'style-info' style.id %}" class="btn btn-outline-secondary">Нет</a>
+    <h6 class="mt-3">Do you really want to delete '{{ style.name }}'?</h6>
+    <input type="submit" class="btn btn-outline-danger" value="Yes">
+    <a href="{% url 'style-info' style.id %}" class="btn btn-outline-secondary">No</a>
 </form>
 {% endblock %}

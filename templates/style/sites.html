@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Список сайтов{% endblock %}
+{% block title %}Sites list{% endblock %}
 
 {% load thumbnail %}
 {% block main %}
-<h1 class="font-weight-bold">Список сайтов</h1>
+<h1 class="font-weight-bold">Site list</h1>
 <div class="row">
     {% for site in sites %}
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 my-3">
         <div class="card bg-light">
             <div class="card-body">
                 <ul class="list-inline mb-0 d-flex">
@@ -14,9 +14,9 @@
                         <img src="{% if site.logo|thumbnail_url:'site-logo-tmb' %}{{ site.logo|thumbnail_url:'site-logo-tmb' }}{% else %}/media/images/site/not-exist.jpg{% endif %}" class="rounded pt-1">
                     </li>
                     <li class="list-inline-item">
-                        <div>{{ site.name }}</div>
-                        <div>Всего стилей: 0</div>
-                        <a href="{% url 'styles' %}?site={{ site.name }}">Посмотреть стили</a>
+                        <div><b>{{ site.name }}</b></div>
+                        <div>Total styles: 0</div>
+                        <a href="{% url 'styles' %}?site={{ site.name }}">Watch styles</a>
                     </li>
                 </ul>
             </div>

@@ -8,24 +8,24 @@
 {% block main %}
 <div class="row">
     <div class="col-sm-12 col-lg-9 col-xl-10">
-        <div class="h1 m-0 font-weight-bold">{{ style.name }}</div>
-        <div class="h5 mt-1 text-muted">Автор: <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></div>
+        <div class="h1 m-0"><b>{{ style.name }}</b></div>
+        <div class="h5 mt-1 text-muted"><b>Author:</b> <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></div>
     </div>
     <div class="col-sm-12 col-lg-3 col-xl-2">
         {% if user.is_authenticated %}
         {% if person_is_current %}
         <div class="dropdown m-0">
-            <button class="btn btn-outline-secondary btn-lg w-100 dropdown-toggle" type="button" id="dd-creatorAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Действия
+            <button class="btn btn-outline-primary-2 btn-lg w-100 dropdown-toggle" type="button" id="dd-creatorAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
             </button>
-            <div class="dropdown-menu w-100" aria-labelledby="dd-creatorAction">
-                <a href="{% url 'style-update' style.id %}" class="dropdown-item">Изменить</a>
-                <a href="{% url 'style-delete' style.id %}" class="dropdown-item">Удалить</a>
+            <div class="dropdown-menu w-100 text-center" aria-labelledby="dd-creatorAction">
+                <a href="{% url 'style-update' style.id %}" class="dropdown-item">Update</a>
+                <a href="{% url 'style-delete' style.id %}" class="dropdown-item">Delete</a>
             </div>
         </div>
         {% else %}
         <button type="button" id="btnSub-{{ style.id }}" class="btn btn-outline-secondary btn-lg w-100">
-            {% if person_is_subscibed %} Отписаться {% else %} Подписаться {% endif %}
+            {% if person_is_subscibed %} Uninstall {% else %} Install {% endif %}
         </button>
         <div id="star-rating" class="mt-1 text-center rating">
             <span id="rate-{{ style.id }}-5" class="star">☆</span>
@@ -57,40 +57,42 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<table class="table table-borderless text-center">
-    <tr>
-        <td><div>
-            <h5 class="text-muted">Подписок</h5>
-            <h2 id="subs-count">{{ style.subscribed }}</h2>
-        </div></td>
-        <td><div>
-            <h5 class="text-muted">Рейтинг</h5>
-            <h2 id="average-rating">{{ style.average_rating }}</h2>
-        </div></td>
-    </tr>
-</table>
-<hr class="my-4">
-<h6 class="font-weight-bold">Описание:</h6>
-<p class="text-small-padding white-space-pre">{{ style.description }}</p>
-<hr class="my-4">
-<h6 class="font-weight-bold">Подробнее:</h6>
-<div class="row">
-    <div class="col-12 col-lg-4">
-        <table class="table table-borderless">
-            <tr>
-                <th scope="row">Для сайта</th>
-                <td><a href="http://{{ style.site.url }}">{{ style.site }}</a></td>
-            </tr>
-            <tr>
-                <th scope="row">Дата публикации</th>
-                <td>{{ style.upload_date }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Последнее обновление</th>
-                <td>{{ style.last_update }}</td>
-            </tr>
-        </table>
+
+<div class="row text-center">
+    <div class="col-6">
+        <h5 class="text-muted"><b>Installed</b></h5>
+        <h2 id="subs-count">{{ style.subscribed }}</h2>
+    </div>
+    <div class="col-6">
+        <h5 class="text-muted"><b>Rating</b></h5>
+        <h2 id="average-rating">{{ style.average_rating }}</h2>
     </div>
 </div>
+
+<hr class="my-4">
+
+<div class="row my-4">
+    <div class="col-md-12 col-lg-8">
+        <div class="my-3"><b>Description</b></div>
+        <div class="text-wrap">{{ style.description }}</div>
+    </div>
+    <div class="col-md-12 col-lg-4">
+        <div class="my-3"><b>About</b></div>
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-2"><b>Site</b></div>
+                <div class="my-2"><b>Upload date</b></div>
+                <div class="my-2"><b>Last update</b></div>
+            </div>
+            <div class="col-6">
+                <div class="mb-2">{{ style.site }}</div>
+                <div class="my-2">{{ style.upload_date }}</div>
+                <div class="my-2">{{ style.last_update }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-4">
 <hr class="my-4">
 {% endblock %}

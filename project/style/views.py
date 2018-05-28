@@ -16,21 +16,27 @@ class SiteListView(TemplateView):
 class StyleListView(TemplateView):
     template_name = "style/catalog.html"
     site_name = None
+    sort = None
 
     def get(self, request, *args, **kwargs):
         if not request.GET.get("site", "") is None:
             self.site_name = request.GET.get("site", "")
-
+        if not request.GET.get("sort", "") is None:
+            self.sort = request.GET.get("sort", "")
         return super(StyleListView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(StyleListView, self).get_context_data(**kwargs)
+        context["sites"] = Site.objects.order_by("id")[:3]
+        sort = "-id"
+        if self.sort in ["id", "-average_rating", "-subscribed"]:
+            sort = self.sort
         if self.site_name:
             curr_site = Site.objects.get(name=self.site_name)
-            context['styles'] = Style.objects.filter(site=curr_site).order_by("-id")
+            context['styles'] = Style.objects.filter(site=curr_site).order_by(sort)
         else:
-            context['styles'] = Style.objects.all().order_by("-id")
-
+            context['styles'] = Style.objects.all().order_by(sort)
+        context['sort_list'] = {"-average_rating" : "Top rated", "-subscribed" : "Top subscribed", "id" : "First added"}
         return context
 
 class StyleInfoView(TemplateView):
@@ -75,7 +81,7 @@ class StyleCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(StyleCreate, self).get_context_data(**kwargs)
-        context['title'] = "Добавить стиль"
+        context['title'] = "Create style"
         return context
 
     def post(self, request, *args, **kwargs):
@@ -112,7 +118,7 @@ class StyleUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(StyleUpdate, self).get_context_data(**kwargs)
-        context['title'] = "Изменить стиль"
+        context['title'] = "Update style"
         return context
 
     def form_valid(self, form):

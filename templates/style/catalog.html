@@ -1,8 +1,23 @@
 {% extends "base.html" %}
-{% block title %}Каталог стилей{% endblock %}
+{% block title %}Catalog{% endblock %}
 
 {% block main %}
-<h1 class="font-weight-bold">Каталог стилей</h1>
+<h1><b>Catalog</b></h1>
+<hr class="mb-1">
+<ul class="nav">
+    <li class="nav-item"><abbr title="Click to see more sites" class="nav-link disabled pl-0"><a href="{% url 'sites' %}"><b>Popular sites:</b></a></abbr></li>
+    {% for site in sites %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'styles' %}?site={{ site.name }}&{{ request.GET.urlencode }}">{{ site.name }}</a></li>
+    {% endfor %}
+</ul>
+<hr class="my-1">
+<ul class="nav">
+    <li class="nav-item"><abbr title="Click to reset sorting" class="nav-link disabled pl-0"><a href="{% url 'styles' %}"><b>Sorting by:</b></a></abbr></li>
+    {% for key, value in sort_list.items %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'styles' %}?sort={{ key }}">{{ value }}</a></li>
+    {% endfor %}
+</ul>
+<hr class="mt-1">
 <div class="row">
     {% for style in styles %}
     {% with style as style %}
