@@ -43,6 +43,7 @@ def rating(request):
                     response_data = {}
                     # TODO: need make this shit more smarter
                     style.average_rating = (style.average_rating + rate)/2 if style.average_rating != 0 else rate
+                    style.average_rating = round(style.average_rating * 100) / 100
                     style.save()
                     response_data['average_rating'] = style.average_rating
                     return JsonResponse(response_data)
