@@ -7,7 +7,7 @@
 <ul class="nav">
     <li class="nav-item"><abbr title="Click to see more sites" class="nav-link disabled pl-0"><a href="{% url 'sites' %}"><b>Popular sites:</b></a></abbr></li>
     {% for site in sites %}
-    <li class="nav-item"><a class="nav-link" href="{% url 'styles' %}?site={{ site.name }}&{{ request.GET.urlencode }}">{{ site.name }}</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'styles' %}?site={{ site.name }}">{{ site.name }}</a></li>
     {% endfor %}
 </ul>
 <hr class="my-1">
