@@ -1,10 +1,9 @@
-import os, json
+import json
 
 from django.http import HttpResponse, JsonResponse
-from django.core import serializers
 from easy_thumbnails.files import get_thumbnailer
 
-from project.style.models import Style, Url
+from project.style.models import Style, Site, Url
 
 def subscription(request):
     if request.method == 'POST':
@@ -65,6 +64,41 @@ def rating(request):
                     return HttpResponse(status=400)
             else:
                 return HttpResponse(status=403)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=405)
+
+def get_site(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        response_data = {}
+        try:
+            urls_qs = Url.objects.filter(name__in=data['urls'])
+            site = Site.objects.get(urls__in=urls_qs)
+            response_data['site'] = site.name
+        except:
+            response_data['site'] = '[new]'+data['urls'][0]
+        return JsonResponse(response_data)
+    else:
+        return HttpResponse(status=405)
+
+def create_style(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            site_str = data["site"]
+            selected_site = None
+            if site_str.find("[new]") == -1:
+                selected_site = Site.objects.get(name=data["site"])
+            else:
+                l = len("[new]")
+                selected_site = Style.get_new_site(site_str[l:], site_str[l:])
+            new_style = Style.objects.create(name=data["name"], site=selected_site, source=str(data["styles"]), creator=request.user.person)
+            new_style.save()
+            response_data = {}
+            response_data['id'] = new_style.id
+            return JsonResponse(response_data)
         else:
             return HttpResponse(status=401)
     else:

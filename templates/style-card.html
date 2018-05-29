@@ -1,20 +1,20 @@
 {% load thumbnail %}
 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 my-3">
     <div class="card bg-card">
-        <a class="card-header bg-card-header font-weight-bold" href="{% url 'style-info' style.id %}">{{ style.name|default_if_none:"untitled" }}</a>
+        <a class="card-header bg-card-header" href="{% url 'style-info' style.id %}"><b>{{ style.name|default_if_none:"untitled" }}</b></a>
         <img class="card-img rounded-0" src="{% if style.logo|thumbnail_url:'style-logo-tmb' %}{{ style.logo|thumbnail_url:'style-logo-tmb' }}{% else %}/media/images/style/not-exist.jpg{% endif %}">
         <ul class="list-group list-group-flush">
             {% if not style.creator is None %}
-            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Author:</b> <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
+            <li class="list-group-item bg-card item-small text-muted"><b>Author:</b> <a href="{% url 'person' style.creator.id %}">{{ style.creator }}</a></li>
             {% endif %}
             {% if not style.site is None %}
-            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Site:</b> {{ style.site }}</li>
+            <li class="list-group-item bg-card item-small text-muted"><b>Site:</b> {{ style.site }}</li>
             {% endif %}
             {% if not style.subscribed is None %}
-            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Installed:</b> {{ style.subscribed }}</li>
+            <li class="list-group-item bg-card item-small text-muted"><b>Installed:</b> {{ style.subscribed }}</li>
             {% endif %}
             {% if not style.average_rating is None %}
-            <li class="list-group-item bg-card custom-list-group-item-small text-muted"><b>Rating:</b> {{ style.average_rating }}</li>
+            <li class="list-group-item bg-card item-small text-muted"><b>Rating:</b> {{ style.average_rating }}</li>
             {% endif %}
         </ul>
         {% if can_edit %}

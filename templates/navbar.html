@@ -11,9 +11,10 @@
         <div class="collapse navbar-collapse" id="navRe">
             <ul class="navbar-nav mr-auto pb-0 pt-1">
                 <li class="nav-item"><a class="nav-link" href="{% url 'styles' %}">Catalog</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://chrome.google.com/webstore/detail/restyle/jofgmocgepahhifccembmdpehpbcccgo">Install Chrome plug-in</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'sites' %}">Sites</a></li>
             </ul>
             <span class="navbar-text">
+                <a class="btn btn-sm btn-outline-light" href="https://chrome.google.com/webstore/detail/restyle/jofgmocgepahhifccembmdpehpbcccgo">Install Chrome plug-in</a>
                 {% if user.is_authenticated %}
                 <div class="btn-group">
                     <button class="btn btn-outline-light btn-sm dropdown-toggle font-weight-bold" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

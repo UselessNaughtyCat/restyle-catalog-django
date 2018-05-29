@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Sites list{% endblock %}
+{% block title %}Sites{% endblock %}
 
 {% load thumbnail %}
 {% block main %}
-<h1 class="font-weight-bold">Site list</h1>
+<h1 class="font-weight-bold">Sites</h1>
 <div class="row">
     {% for site in sites %}
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 my-3">
@@ -11,7 +11,7 @@
             <div class="card-body">
                 <ul class="list-inline mb-0 d-flex">
                     <li class="list-inline-item">
-                        <img src="{% if site.logo|thumbnail_url:'site-logo-tmb' %}{{ site.logo|thumbnail_url:'site-logo-tmb' }}{% else %}/media/images/site/not-exist.jpg{% endif %}" class="rounded pt-1">
+                        <img src="{{ site.logo|thumbnail_url:'site-logo-tmb' }}" class="rounded pt-1">
                     </li>
                     <li class="list-inline-item">
                         <div><b>{{ site.name }}</b></div>

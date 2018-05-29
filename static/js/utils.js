@@ -21,6 +21,18 @@ function getCookie(name) {
     return cookieValue;
 }
 
+if (!String.prototype.format) {
+    String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined'
+                ? args[number]
+                : match
+                ;
+        });
+    };
+}
+
 function responseJSON(response) {
     return response.json()
 }
@@ -28,5 +40,6 @@ function responseJSON(response) {
 window.addEventListener('message', e => {
     if (e.data.msg === 'RESTYLE_THEMES') {
         console.log(e.data.themes);
+        appendLocalStyles(e.data.themes);
     }
 });

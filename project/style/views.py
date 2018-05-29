@@ -2,7 +2,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
 
-from project.style.models import Url, Site, Style
+from project.style.models import Site, Style
 from project.style.forms import StyleForm
 
 class SiteListView(TemplateView):
@@ -60,18 +60,6 @@ class StyleInfoView(TemplateView):
         context['person_is_subscibed'] = self.person_is_subscibed
         return context
 
-def get_new_site(site_name, site_urls):
-    if site_name != "" and site_urls != "":
-        new_urls = site_urls.split(" ")
-        new_site = Site.objects.create(name=site_name)
-        for new_url in new_urls:
-            tmp_url = Url.objects.create(name=new_url)
-            tmp_url.save()
-            new_site.urls.add(tmp_url)
-        return new_site
-    else:
-        return None
-
 class StyleCreate(CreateView):
     model = Style
     form_class = StyleForm
@@ -82,10 +70,11 @@ class StyleCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super(StyleCreate, self).get_context_data(**kwargs)
         context['title'] = "Create style"
+        context['can_import'] = True
         return context
 
     def post(self, request, *args, **kwargs):
-        self.new_site = get_new_site(request.POST.get("site_name", ""), request.POST.get("site_urls", ""))
+        self.new_site = Style.get_new_site(request.POST.get("site_name", ""), request.POST.get("site_urls", ""))
         return super(StyleCreate, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -113,12 +102,13 @@ class StyleUpdate(UpdateView):
             return super(StyleUpdate, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        self.new_site = get_new_site(request.POST.get("site_name", ""), request.POST.get("site_urls", ""))
+        self.new_site = Style.get_new_site(request.POST.get("site_name", ""), request.POST.get("site_urls", ""))
         return super(StyleUpdate, self).post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(StyleUpdate, self).get_context_data(**kwargs)
         context['title'] = "Update style"
+        context['can_import'] = False
         return context
 
     def form_valid(self, form):

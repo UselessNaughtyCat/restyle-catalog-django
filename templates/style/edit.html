@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
+{% load staticfiles %}
+{% block head %}
+<script src={% static "js/style-edit.js" %}></script> 
+{% endblock %}
 
 {% load widget_tweaks %}
 {% block main %}
@@ -11,9 +15,11 @@
             <a class="nav-item nav-link active" id="nav-style-common-tab" data-toggle="tab" href="#nav-style-common" role="tab" aria-controls="nav-style-common"aria-selected="true">
                 Common
             </a>
+            {% if can_import %}
             <a class="nav-item nav-link" id="nav-style-source-tab" data-toggle="tab" href="#nav-style-source" role="tab" aria-controls="nav-style-source"aria-selected="false">
-                CSS
+                Import local styles
             </a>
+            {% endif %}
         </div>
     </nav>
     <div class="tab-content">
@@ -55,8 +61,6 @@
                 {{ form.description.label_tag }}
                 {{ form.description|add_class:"form-control" }}
             </div>
-        </div>
-        <div class="tab-pane fade py-3" id="nav-style-source" role="tabpanel" aria-labelledby="nav-style-source-tab">
             <div class="form-group">
                 {{ form.source.label_tag }}
                 <code>
@@ -64,6 +68,13 @@
                 </code>
             </div>
         </div>
+        {% if can_import %}
+        <div class="tab-pane fade py-3" id="nav-style-source" role="tabpanel" aria-labelledby="nav-style-source-tab">
+            <div class="row" id="local-styles">
+
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <input type="submit" class="btn btn-primary-2" value="Apply">
