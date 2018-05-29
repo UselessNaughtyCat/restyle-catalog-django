@@ -15,8 +15,16 @@ function subscriptionEvent() {
     })
     .then(responseJSON)
     .then(function (json) {
+        console.log(json)
         console.log("subscribed: " + json.subscribed)
-        elem.innerHTML = json.subscribed ? "Uninstall" : "Install"
+        if (json.subscribed) {
+            window.postMessage({ msg: 'RESTYLE_INSTALL_THEME', theme: json.sub_style }, '*')
+            elem.innerHTML = "Uninstall"
+        } else {
+            
+            window.postMessage({ msg: 'RESTYLE_UNINSTALL_THEME', id: json.unsub_style.id }, '*')
+            elem.innerHTML = "Install"
+        }
         document.getElementById("subs-count").innerHTML = json.subs_count
     })
     elem.disabled = false

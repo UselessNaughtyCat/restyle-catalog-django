@@ -24,3 +24,9 @@ function getCookie(name) {
 function responseJSON(response) {
     return response.json()
 }
+
+window.addEventListener('message', e => {
+    if (e.data.msg === 'RESTYLE_THEMES') {
+        console.log(e.data.themes);
+    }
+});
