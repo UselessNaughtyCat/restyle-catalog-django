@@ -44,6 +44,7 @@ urlpatterns = [
     path('ajax/rating', events.rating),
     path('ajax/site/get', events.get_site),
     path('ajax/style/add', events.create_style),
+    path('ajax/style/update', events.update_style),
 
     path('admin/', admin.site.urls),
 ]

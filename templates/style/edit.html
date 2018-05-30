@@ -15,9 +15,14 @@
             <a class="nav-item nav-link active" id="nav-style-common-tab" data-toggle="tab" href="#nav-style-common" role="tab" aria-controls="nav-style-common"aria-selected="true">
                 Common
             </a>
-            {% if can_import %}
-            <a class="nav-item nav-link" id="nav-style-source-tab" data-toggle="tab" href="#nav-style-source" role="tab" aria-controls="nav-style-source"aria-selected="false">
+            {% if is_create %}
+            <a class="nav-item nav-link" id="nav-style-create-tab" data-toggle="tab" href="#nav-style-create" role="tab" aria-controls="nav-style-create"aria-selected="false">
                 Import local styles
+            </a>
+            {% endif %}
+            {% if is_update %}
+            <a class="nav-item nav-link" id="nav-style-update-tab" data-toggle="tab" href="#nav-style-update" role="tab" aria-controls="nav-style-update" aria-selected="false">
+                Update local styles
             </a>
             {% endif %}
         </div>
@@ -67,16 +72,21 @@
                 {{ form.source|add_class:"form-control" }}
                 </code>
             </div>
+            <input type="submit" class="btn btn-primary-2" value="Apply">
         </div>
-        {% if can_import %}
-        <div class="tab-pane fade py-3" id="nav-style-source" role="tabpanel" aria-labelledby="nav-style-source-tab">
-            <div class="row" id="local-styles">
-
+        {% if is_create %}
+        <div class="tab-pane fade py-3" id="nav-style-create" role="tabpanel" aria-labelledby="nav-style-create-tab">
+            <div class="row" id="local-styles-create"></div>
+        </div>
+        {% endif %}
+        {% if is_update %}
+        <div class="tab-pane fade py-3" id="nav-style-update" role="tabpanel" aria-labelledby="nav-style-update-tab">
+            <UPDATE-ID id="{{ style.id }}"></UPDATE-ID>
+            <div class="row" id="local-styles-update">
             </div>
         </div>
         {% endif %}
     </div>
 
-    <input type="submit" class="btn btn-primary-2" value="Apply">
 </form>
 {% endblock %}

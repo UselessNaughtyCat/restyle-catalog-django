@@ -103,3 +103,17 @@ def create_style(request):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=405)
+
+def update_style(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            style = Style.objects.get(id=data["id"])
+            style.name = data["name"]
+            style.source = str(data["styles"])
+            style.save()
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=405)

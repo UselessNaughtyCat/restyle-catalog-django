@@ -70,7 +70,8 @@ class StyleCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super(StyleCreate, self).get_context_data(**kwargs)
         context['title'] = "Create style"
-        context['can_import'] = True
+        context['is_create'] = True
+        context['is_update'] = False
         return context
 
     def post(self, request, *args, **kwargs):
@@ -108,7 +109,8 @@ class StyleUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(StyleUpdate, self).get_context_data(**kwargs)
         context['title'] = "Update style"
-        context['can_import'] = False
+        context['is_create'] = False
+        context['is_update'] = True
         return context
 
     def form_valid(self, form):
