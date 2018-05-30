@@ -20,14 +20,16 @@ function createStyleFromLocal(e) {
     })
     .then(responseJSON)
     .then(function (json) {
-        createdLocalStyle = STYLE_DICTS[sel_id];
-        window.postMessage({ msg: 'RESTYLE_UNINSTALL_THEME', id: createdLocalStyle.id }, '*')
+        style = Object.assign({}, STYLE_DICTS[sel_id]);
+        style.id = json.id;
+        console.log(style)
+        window.postMessage({ msg: 'RESTYLE_INSTALL_THEME', theme: style }, '*')
         return json;
     })
     .then(function (json) {
-        createdLocalStyle2 = STYLE_DICTS[sel_id];
-        createdLocalStyle2.id = json.id;
-        window.postMessage({ msg: 'RESTYLE_INSTALL_THEME', theme: createdLocalStyle2 }, '*')
+        style = Object.assign({}, STYLE_DICTS[sel_id]);
+        console.log(style)
+        window.postMessage({ msg: 'RESTYLE_UNINSTALL_THEME', id: style.id }, '*')
         window.location.href = getHost();
     })
 }
