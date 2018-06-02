@@ -25,12 +25,15 @@ def subscription(request):
                         response_data['sub_style'] = {
                             "author": subs_style.creator.user.username,
                             "domains": list(subs_style.site.urls.values_list('name', flat=True)),
-                            "enabled": True,
-                            "preview": request.scheme + "://" + request.get_host() + get_thumbnailer(subs_style.logo)['style-logo-tmb'].url,
+                            "enabled": False,
                             "id": subs_style.id,
                             "name": subs_style.name,
-                            "styles": json.loads(subs_style.source or "{}"),
+                            "styles": json.loads(subs_style.source),
                         }
+                        try:
+                            response_data['sub_style']["preview"] = request.scheme + "://" + request.get_host() + get_thumbnailer(subs_style.logo)['style-logo-tmb'].url,
+                        except:
+                            response_data['sub_style']["preview"] = request.scheme + "://" + request.get_host() + "/media/images/style/not-exist.jpg"
                     subs_style.save()
                     subs_style.subscribed = subs_style.person_set.count()
                     subs_style.save()
@@ -94,7 +97,7 @@ def create_style(request):
             else:
                 l = len("[new]")
                 selected_site = Style.get_new_site(site_str[l:], site_str[l:])
-            new_style = Style.objects.create(name=data["name"], site=selected_site, source=str(data["styles"]), creator=request.user.person)
+            new_style = Style.objects.create(name=data["name"], site=selected_site, source=json.dumps(data["styles"]), creator=request.user.person)
             new_style.save()
             response_data = {}
             response_data['id'] = new_style.id
@@ -110,7 +113,7 @@ def update_style(request):
             data = json.loads(request.body)
             style = Style.objects.get(id=data["id"])
             style.name = data["name"]
-            style.source = str(data["styles"])
+            style.source = json.dumps(data["styles"])
             style.save()
             return HttpResponse(status=200)
         else:
